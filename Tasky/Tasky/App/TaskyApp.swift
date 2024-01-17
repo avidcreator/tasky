@@ -13,6 +13,7 @@ struct TaskyApp: App {
     var body: some Scene {
         WindowGroup {
             NowView()
+                .tint(.black)
         }
         .modelContainer(for: Task.self)
     }
