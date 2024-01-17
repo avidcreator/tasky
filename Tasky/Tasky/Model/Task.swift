@@ -7,7 +7,7 @@
 
 import Foundation
 
-final class Task {
+final class Task: Identifiable {
     var id = UUID().uuidString
     var name: String
     var symbol: String?
