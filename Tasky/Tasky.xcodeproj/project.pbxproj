@@ -63,14 +63,10 @@
 		4D2201712B5858EF001E2989 /* Tasky */ = {
 			isa = PBXGroup;
 			children = (
-				4D2201722B5858EF001E2989 /* TaskyApp.swift */,
-				4D2201742B5858EF001E2989 /* NowView.swift */,
-				4D2201832B585A05001E2989 /* MinuteGroup.swift */,
-				4D2201812B5859E9001E2989 /* Task.swift */,
-				4D2201852B585A5D001E2989 /* CreateBlock.swift */,
-				4D2201872B585A84001E2989 /* Block.swift */,
-				4D2201892B585AAF001E2989 /* SymbolView.swift */,
-				4D22018B2B585AC9001E2989 /* NameView.swift */,
+				4D2201902B585AEB001E2989 /* App */,
+				4D22018F2B585AE8001E2989 /* Now */,
+				4D22018E2B585AE1001E2989 /* Model */,
+				4D22018D2B585ADB001E2989 /* Components */,
 				4D2201762B5858F0001E2989 /* Assets.xcassets */,
 				4D2201782B5858F0001E2989 /* Preview Content */,
 			);
@@ -83,6 +79,42 @@
 				4D2201792B5858F0001E2989 /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		4D22018D2B585ADB001E2989 /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				4D2201852B585A5D001E2989 /* CreateBlock.swift */,
+				4D2201872B585A84001E2989 /* Block.swift */,
+				4D2201892B585AAF001E2989 /* SymbolView.swift */,
+				4D22018B2B585AC9001E2989 /* NameView.swift */,
+			);
+			path = Components;
+			sourceTree = "<group>";
+		};
+		4D22018E2B585AE1001E2989 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				4D2201832B585A05001E2989 /* MinuteGroup.swift */,
+				4D2201812B5859E9001E2989 /* Task.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		4D22018F2B585AE8001E2989 /* Now */ = {
+			isa = PBXGroup;
+			children = (
+				4D2201742B5858EF001E2989 /* NowView.swift */,
+			);
+			path = Now;
+			sourceTree = "<group>";
+		};
+		4D2201902B585AEB001E2989 /* App */ = {
+			isa = PBXGroup;
+			children = (
+				4D2201722B5858EF001E2989 /* TaskyApp.swift */,
+			);
+			path = App;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
