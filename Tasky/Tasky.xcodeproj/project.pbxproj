@@ -19,6 +19,7 @@
 		4D22018C2B585AC9001E2989 /* NameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D22018B2B585AC9001E2989 /* NameView.swift */; };
 		4D2201942B585B39001E2989 /* Date+Tasky.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D2201932B585B39001E2989 /* Date+Tasky.swift */; };
 		4D2201972B585B5A001E2989 /* MinuteGroupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D2201962B585B5A001E2989 /* MinuteGroupView.swift */; };
+		4D22019C2B585BB5001E2989 /* SymbolPicker in Frameworks */ = {isa = PBXBuildFile; productRef = 4D22019B2B585BB5001E2989 /* SymbolPicker */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -42,6 +43,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4D22019C2B585BB5001E2989 /* SymbolPicker in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -147,6 +149,9 @@
 			dependencies = (
 			);
 			name = Tasky;
+			packageProductDependencies = (
+				4D22019B2B585BB5001E2989 /* SymbolPicker */,
+			);
 			productName = Tasky;
 			productReference = 4D22016F2B5858EF001E2989 /* Tasky.app */;
 			productType = "com.apple.product-type.application";
@@ -175,6 +180,9 @@
 				Base,
 			);
 			mainGroup = 4D2201662B5858EF001E2989;
+			packageReferences = (
+				4D22019A2B585BB5001E2989 /* XCRemoteSwiftPackageReference "SymbolPicker" */,
+			);
 			productRefGroup = 4D2201702B5858EF001E2989 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -416,6 +424,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		4D22019A2B585BB5001E2989 /* XCRemoteSwiftPackageReference "SymbolPicker" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/xnth97/SymbolPicker.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.5.1;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		4D22019B2B585BB5001E2989 /* SymbolPicker */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 4D22019A2B585BB5001E2989 /* XCRemoteSwiftPackageReference "SymbolPicker" */;
+			productName = SymbolPicker;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 4D2201672B5858EF001E2989 /* Project object */;
 }
