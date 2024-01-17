@@ -6,13 +6,14 @@
 //
 
 import SwiftUI
+import SwiftData
 
 struct NowView: View {
     @State private var dragLocation: CGPoint = .zero
     @State var minuteGroupSelected: String? = nil
     @State var isShowingTaskView: Bool = false
     
-    private var allTasks: [Task] = []
+    @Query private var allTasks: [Task] = []
     var dayTasks: [Task] {
         allTasks.filter({ $0.date.isSameDayAs(date: Date()) })
     }

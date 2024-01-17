@@ -7,8 +7,10 @@
 
 import SwiftUI
 import SymbolPicker
+import SwiftData
 
 struct TaskView: View {
+    @Environment (\.modelContext) private var context
     @State var task: Task
     @State var showSymbolPicker: Bool
     @Binding var isShowingTaskView: Bool
@@ -23,6 +25,7 @@ struct TaskView: View {
     
     private var addButton: some View {
         Button {
+            context.insert(task)
             isShowingTaskView = false
             minuteGroupSelected = nil
         } label: {

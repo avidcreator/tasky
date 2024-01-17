@@ -6,8 +6,10 @@
 //
 
 import Foundation
+import SwiftData
 
-final class Task: Identifiable {
+@Model
+final class Task {
     var id = UUID().uuidString
     var name: String
     var symbol: String?
