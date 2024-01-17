@@ -72,7 +72,7 @@
 			isa = PBXGroup;
 			children = (
 				4D2201902B585AEB001E2989 /* App */,
-				4D22018F2B585AE8001E2989 /* Now */,
+				4D22018F2B585AE8001E2989 /* Now View */,
 				4D22019F2B585BEC001E2989 /* Task View */,
 				4D22018E2B585AE1001E2989 /* Model */,
 				4D22018D2B585ADB001E2989 /* Components */,
@@ -111,13 +111,13 @@
 			path = Model;
 			sourceTree = "<group>";
 		};
-		4D22018F2B585AE8001E2989 /* Now */ = {
+		4D22018F2B585AE8001E2989 /* Now View */ = {
 			isa = PBXGroup;
 			children = (
 				4D2201742B5858EF001E2989 /* NowView.swift */,
 				4D2201962B585B5A001E2989 /* MinuteGroupView.swift */,
 			);
-			path = Now;
+			path = "Now View";
 			sourceTree = "<group>";
 		};
 		4D2201902B585AEB001E2989 /* App */ = {
