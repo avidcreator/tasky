@@ -79,24 +79,38 @@ struct NowView: View {
         }
     }
     
-    private var minuteGroupViews: some View {
-        VStack {
-            ForEach(MinuteGroup.allCases, id: \.id) { minuteGroup in
-                if let tasks = tasks[minuteGroup] {
-                    MinuteGroupView(
-                        hour: Date().hour(),
-                        minuteGroup: minuteGroup,
-                        tasks: tasks,
-                        minuteGroupSelected: $minuteGroupSelected,
-                        isHighlighted: minuteGroup == Date().minuteGroup
-                    )
-                    .opacity(minuteGroup.rawValue != Date().minuteGroup.rawValue ? 0.3 : 1.0)
+    private func list(minuteGroups: [MinuteGroup]) -> some View {
+        List {
+            ForEach(minuteGroups, id: \.id) { minuteGroup in
+                let isMinuteGroupActive = minuteGroup == Date().minuteGroup
+                Section {
+                    if let tasks = tasks[minuteGroup] {
+                        ForEach(tasks) { task in
+                            BlockCell(name: task.name, symbol: task.symbol, isHighlighted: isMinuteGroupActive)
+                            .background {
+                                Rectangle()
+                                    .fill(Color(minuteGroupSelected == minuteGroup.id ? .systemGray6 : .clear))
+                                dragDetector(for: minuteGroup)
+                            }
+                            .opacity(isMinuteGroupActive ? 1.0 : 0.3)
+                        }
+                        .listRowInsets(.init(top: 0, leading: 0, bottom: 0, trailing: 0))
+                    }
+                } header: {
+                    MinuteGroupSectionView(hour: Date().hour(), minuteGroup: minuteGroup, isBolded: isMinuteGroupActive)
                     .background {
+                        Rectangle()
+                            .fill(Color(minuteGroupSelected == minuteGroup.id ? .systemGray6 : .clear))
                         dragDetector(for: minuteGroup)
                     }
                 }
             }
+            .onMove { from, to in
+                // TODO: move the data source.
+            }
+            .listRowSeparator(.hidden)
         }
+        .listStyle(.plain)
     }
     
     var body: some View {
@@ -109,15 +123,7 @@ struct NowView: View {
                         .padding()
                     Spacer()
                 }
-                ScrollViewReader { proxy in
-                    ScrollView {
-                        minuteGroupViews
-                        Spacer()
-                    }
-                    .onAppear {
-                        proxy.scrollTo(Date().minuteGroup.id, anchor: .top)
-                    }
-                }
+                list(minuteGroups: MinuteGroup.allCases)
                 Spacer()
                 CreateBlock()
                     .opacity(dragLocation == .zero ? 1.0 : 0.0)
