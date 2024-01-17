@@ -14,8 +14,10 @@ extension Date {
         return dateFormatter.string(from: self)
     }
     
-    var hour: Int {
-        Calendar.current.component(.hour, from: Date())
+    func hour(twentyFourHourFormat: Bool = false) -> Int {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "h"
+        return Int(formatter.string(from: self)) ?? 0
     }
     
     var hourString: String {

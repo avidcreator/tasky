@@ -52,7 +52,7 @@ struct MinuteGroupView: View {
         Task(name: "Drink water", symbol: nil, date: Date(), minuteGroup: .tenToTwenty)
     ]
     return MinuteGroupView(
-        hour: Date().hour,
+        hour: Date().hour(),
         minuteGroup: .tenToTwenty,
         tasks: sampleTasks,
         minuteGroupSelected: .constant(nil),

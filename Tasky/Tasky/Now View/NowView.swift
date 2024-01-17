@@ -84,7 +84,7 @@ struct NowView: View {
             ForEach(MinuteGroup.allCases, id: \.id) { minuteGroup in
                 if let tasks = tasks[minuteGroup] {
                     MinuteGroupView(
-                        hour: Date().hour,
+                        hour: Date().hour(),
                         minuteGroup: minuteGroup,
                         tasks: tasks,
                         minuteGroupSelected: $minuteGroupSelected,
