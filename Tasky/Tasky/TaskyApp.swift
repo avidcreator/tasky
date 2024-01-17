@@ -11,7 +11,7 @@ import SwiftUI
 struct TaskyApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            NowView()
         }
     }
 }
