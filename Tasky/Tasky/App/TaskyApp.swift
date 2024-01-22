@@ -6,15 +6,15 @@
 //
 
 import SwiftUI
-import SwiftData
+//import SwiftData
 
 @main
 struct TaskyApp: App {
     var body: some Scene {
         WindowGroup {
-            NowView()
+            HomeView()
                 .tint(.black)
         }
-        .modelContainer(for: Task.self)
+//        .modelContainer(for: Task.self)
     }
 }

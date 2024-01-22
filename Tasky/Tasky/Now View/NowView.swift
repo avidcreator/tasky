@@ -6,7 +6,7 @@
 //
 
 import SwiftUI
-import SwiftData
+//import SwiftData
 
 struct NowView: View {
     // MARK: - Properties
@@ -15,7 +15,7 @@ struct NowView: View {
     @State private var minuteGroupSelected: String? = nil
     @State private var isShowingTaskView: Bool = false
     
-    @Query private var allTasks: [Task] = []
+    private var allTasks: [Task] = []
     
     // MARK: - Computed Properties
     var dayTasks: [Task] {
