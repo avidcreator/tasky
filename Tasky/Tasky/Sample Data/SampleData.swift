@@ -10,7 +10,8 @@ import Foundation
 struct SampleData {
     static let clusters: [Cluster] = [
         Cluster(
-            title: "Today",
+            hour: Date().hour(),
+            minuteGroup: .zeroToTen,
             tasks: [
                 Task(name: "Walk the dog", symbol: nil, date: Date(), minuteGroup: .zeroToTen),
                 Task(name: "Clean out the closet", symbol: nil, date: Date(), minuteGroup: .zeroToTen),
@@ -18,7 +19,8 @@ struct SampleData {
             ]
         ),
         Cluster(
-            title: "Tomorrow",
+            hour: Date().hour(),
+            minuteGroup: .tenToTwenty,
             tasks: [
                 Task(name: "Go for a walk", symbol: nil, date: Date(), minuteGroup: .zeroToTen),
                 Task(name: "Make time for myself", symbol: nil, date: Date(), minuteGroup: .zeroToTen),

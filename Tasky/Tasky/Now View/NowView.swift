@@ -131,7 +131,7 @@ struct NowView: View {
                 }
                 list(minuteGroups: MinuteGroup.allCases)
                 Spacer()
-                CreateBlock()
+                CreateBlock(isDragging: .constant(false), dragEvent: .constant(DragEvent(absoluteOrigin: .zero)))
                     .opacity(dragLocation == .zero ? 1.0 : 0.0)
             }
             draggableBlock
@@ -148,9 +148,9 @@ struct NowView: View {
             TaskView(
                 task: task,
                 showSymbolPicker: false,
-                isShowingTaskView: $isShowingTaskView,
-                minuteGroupSelected: $minuteGroupSelected,
-                isEditing: false
+                isEditing: false,
+                minuteGroup: .zeroToTen,
+                isShowingTaskView: $isShowingTaskView
             )
         })
     }

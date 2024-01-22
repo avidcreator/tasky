@@ -10,12 +10,15 @@ import SymbolPicker
 //import SwiftData
 
 struct TaskView: View {
+    // MARK: - Properties
 //    @Environment (\.modelContext) private var context
     @State var task: Task
     @State var showSymbolPicker: Bool
-    @Binding var isShowingTaskView: Bool
-    @Binding var minuteGroupSelected: String?
     @State var isEditing: Bool
+    @State var minuteGroup: MinuteGroup = .zeroToTen
+    
+    // MARK: Binding Properties
+    @Binding var isShowingTaskView: Bool
     
     private var cancelButton: some View {
         Button("Cancel") {
@@ -27,7 +30,6 @@ struct TaskView: View {
         Button {
 //            context.insert(task)
             isShowingTaskView = false
-            minuteGroupSelected = nil
         } label: {
             Text("Add")
         }
@@ -65,9 +67,6 @@ struct TaskView: View {
                 }
             }
         }
-        .onDisappear {
-            minuteGroupSelected = nil
-        }
     }
     
     var body: some View {
@@ -85,5 +84,5 @@ struct TaskView: View {
 
 #Preview {
     let sampleTask = Task(name: "Go for a swim", symbol: "figure.pool.swim", date: Date(), minuteGroup: .zeroToTen)
-    return TaskView(task: sampleTask, showSymbolPicker: false, isShowingTaskView: .constant(false), minuteGroupSelected: .constant(nil), isEditing: false)
+    return TaskView(task: sampleTask, showSymbolPicker: false, isEditing: false, isShowingTaskView: .constant(false))
 }

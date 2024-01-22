@@ -10,10 +10,13 @@ import Foundation
 struct Cluster: Identifiable, Equatable {
     // MARK: - Properties
     var id = UUID().uuidString
-    var title: String
+    var hour: Int
+    var minuteGroup: MinuteGroup
     private(set) var tasks: [Task]
     
     // MARK: - Retrieval
+    var title: String { "\(hour):\(minuteGroup.pairStrings.0)" }
+    
     func index(ofTask task: Task) -> Int? {
         for itemIndex in 0..<tasks.count {
             let enumeratedTask = tasks[itemIndex]
@@ -26,7 +29,7 @@ struct Cluster: Identifiable, Equatable {
     
     // MARK: - Equatable
     static func ==(lhs: Cluster, rhs: Cluster) -> Bool {
-        return lhs.tasks == rhs.tasks
+        return lhs.id == rhs.id
     }
     
     // MARK: - Tasks

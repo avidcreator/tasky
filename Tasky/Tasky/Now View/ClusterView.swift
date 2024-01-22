@@ -123,7 +123,8 @@ struct ClusterView: View {
     var body: some View {
         ZStack {
             VStack {
-                SectionHeader(title: cluster.title)
+                let isMinuteGroupActive = cluster.minuteGroup == Date().minuteGroup
+                SectionHeader(title: cluster.title, isBolded: isMinuteGroupActive)
                 ForEach(cluster.tasks) { task in
                     TaskCell(
                         task: task,
@@ -132,7 +133,8 @@ struct ClusterView: View {
                         blockDragEvent: $draggedCellEvent,
                         selectedAction: $selectedAction,
                         showsActions: $showsActions,
-                        cellPlacements: $cellPlacements
+                        cellPlacements: $cellPlacements,
+                        isHighlighted: isMinuteGroupActive
                     )
                     .onTouch(
                         dragEvent: $draggedCellEvent,
@@ -183,7 +185,7 @@ struct ClusterView: View {
 
 #Preview {
     ClusterView(
-        cluster: SampleData.clusters.first ?? Cluster(title: "", tasks: []),
+        cluster: SampleData.clusters.first ?? Cluster(hour: Date().hour(), minuteGroup: .zeroToTen, tasks: []),
         isDragging: .constant(false),
         draggedTask: .constant(nil),
         draggedCellZIndex: .constant(0.0),

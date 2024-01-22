@@ -10,18 +10,50 @@ import SwiftUI
 struct HomeView: View {
     // MARK: - Properties
     // MARK: State Properties
-    @State private var clusters: [Cluster] = SampleData.clusters
+//    @State private var clusters: [Cluster] = SampleData.clusters
     @State private var isDragging: Bool = false
     @State private var draggedTask: Task? = nil
     @State private var draggedCellZIndex: Double = 0
     @State private var clusterForDraggedCellZIndex: Double = 0
     @State private var clusterForDraggedCell: Cluster?
     @State private var draggedCellEvent = DragEvent(absoluteOrigin: .zero)
+    @State private var draggedCreateBlockEvent = DragEvent(absoluteOrigin: .zero)
     @State private var selectedCluster: Cluster?
     @State private var selectedAction: Action?
     @State private var editingTask = Task(name: "", symbol: nil, date: Date(), minuteGroup: .zeroToTen)
     @State private var isEditing: Bool = false
     @State private var cellReorder: CellReorder?
+    @State private var isShowingTaskView = false
+    
+    private var allTasks: [Task] = [
+        Task(name: "Go for a walk", symbol: nil, date: Date(), minuteGroup: .zeroToTen),
+        Task(name: "Drink water", symbol: nil, date: Date(), minuteGroup: .zeroToTen),
+        Task(name: "Take the dog out", symbol: nil, date: Date(), minuteGroup: .tenToTwenty),
+        Task(name: "Take vitamins", symbol: nil, date: Date(), minuteGroup: .tenToTwenty),
+        Task(name: "Prepare lunch", symbol: nil, date: Date(), minuteGroup: .twentyToThirty),
+        Task(name: "Work on app", symbol: nil, date: Date(), minuteGroup: .thirtyToForty),
+    ]
+    
+    @State private var clusters: [Cluster] = []
+    
+    // MARK: Computed Properties
+    var dayTasks: [Task] {
+        allTasks.filter({ $0.date.isSameDayAs(date: Date()) })
+    }
+    
+    private var tasks: [MinuteGroup: [Task]] {
+        var tasks: [MinuteGroup: [Task]] = [:]
+        for minuteGroup in MinuteGroup.allCases {
+            var minuteGroupTasks: [Task] = []
+            for dayTask in dayTasks {
+                if dayTask.minuteGroup == minuteGroup {
+                    minuteGroupTasks.append(dayTask)
+                }
+            }
+            tasks[minuteGroup] = minuteGroupTasks
+        }
+        return tasks
+    }
     
     private func task(id: String) -> Task? {
         clusters.flatMap({ $0.tasks }).filter({ $0.id == id }).first ?? nil
@@ -134,10 +166,25 @@ struct HomeView: View {
         clusters[indexPath.section].replace(task: originalTask, withTask: newTask)
     }
     
-    // MARK: - List
-    private var list: some View {
+    // MARK: - Views
+    private var header: some View {
+        HStack {
+            Text("\(Date().timeString)")
+                .font(.title)
+                .fontWeight(.bold)
+                .padding()
+            Spacer()
+        }
+    }
+    
+    private func list(minuteGroups: [MinuteGroup]) -> some View {
         VStack {
-            ForEach(clusters) { cluster in
+            ForEach(minuteGroups) { group in
+                let cluster = Cluster(
+                    hour: Date().hour(),
+                    minuteGroup: group,
+                    tasks: tasks[group] ?? []
+                )
                 ClusterView(
                     cluster: cluster,
                     isDragging: $isDragging,
@@ -154,11 +201,13 @@ struct HomeView: View {
                 .onTouch(
                     dragEvent: $draggedCellEvent,
                     offset: CGPoint(x: 16, y: -16),
-                    id: cluster.title,
+                    id: cluster.id,
                     dragInsideCallback: nil,
                     changeCallback: { isInside in
                         if isInside {
                             selectedCluster = cluster
+                        } else if selectedCluster == cluster {
+                            selectedCluster = nil
                         }
                     }
                 )
@@ -169,6 +218,11 @@ struct HomeView: View {
                 .onChange(of: cellReorder) { oldValue, newValue in
                     guard let cellReorder else { return }
                     handleReorder(cellReorder)
+                }
+                .onChange(of: isShowingTaskView) { oldValue, newValue in
+                    if !isShowingTaskView {
+                        selectedCluster = nil
+                    }
                 }
             }
         }
@@ -181,19 +235,43 @@ struct HomeView: View {
                 .transition(.scale)
         } else {
             GeometryReader { proxy in
-                ScrollView {
-                    VStack {
-                        list
-                        Spacer()
+                VStack {
+                    ScrollView {
+                        VStack {
+                            header
+                            list(minuteGroups: MinuteGroup.allCases)
+                        }
                     }
-                    .onAppear {
-                        let zIndex = clusters.flatMap({ $0.tasks }).count - 1
-                        draggedCellZIndex = Double(zIndex)
-                        clusterForDraggedCellZIndex = Double(zIndex)
-                        draggedCellEvent = DragEvent(absoluteOrigin: proxy.frame(in: .global).origin)
-                    }
+                    CreateBlock(isDragging: $isDragging, dragEvent: $draggedCreateBlockEvent)
+                        .onTouchUpGesture {
+                            if selectedCluster != nil {
+                                isShowingTaskView = true
+                            }
+                        }
+                }
+                .onAppear {
+                    let zIndex = clusters.flatMap({ $0.tasks }).count - 1
+                    draggedCellZIndex = Double(zIndex)
+                    clusterForDraggedCellZIndex = Double(zIndex)
+                    draggedCellEvent = DragEvent(absoluteOrigin: proxy.frame(in: .global).origin)
+                    draggedCreateBlockEvent = DragEvent(absoluteOrigin: proxy.frame(in: .global).origin)
                 }
             }
+            .sheet(isPresented: $isShowingTaskView, content: {
+                let task = Task(
+                    name: "",
+                    symbol: nil,
+                    date: Date(),
+                    minuteGroup: selectedCluster?.minuteGroup ?? .zeroToTen
+                )
+                TaskView(
+                    task: task,
+                    showSymbolPicker: false,
+                    isEditing: false,
+                    minuteGroup: selectedCluster?.minuteGroup ?? .zeroToTen,
+                    isShowingTaskView: $isShowingTaskView
+                )
+            })
         }
     }
 }

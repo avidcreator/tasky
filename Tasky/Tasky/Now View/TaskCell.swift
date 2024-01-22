@@ -30,6 +30,7 @@ struct TaskCell: View {
     @State private var actionViewOffsetProgress: CGPoint = .zero
     @State private var blockViewAnimatesBackToOrigin = true
     @State private var offset: CGSize = .zero
+    @State var isHighlighted = false
     
     // MARK: Computed Properties
     private var isDraggingCell: Bool {
@@ -122,7 +123,8 @@ struct TaskCell: View {
                     task: task,
                     isDragging: $isDraggingBlock,
                     dragEvent: $blockDragEvent,
-                    animatesBackToOrigin: $blockViewAnimatesBackToOrigin
+                    animatesBackToOrigin: $blockViewAnimatesBackToOrigin,
+                    isHighlighted: $isHighlighted
                 )
                 Spacer()
             }

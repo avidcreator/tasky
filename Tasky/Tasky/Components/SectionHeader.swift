@@ -8,13 +8,16 @@
 import SwiftUI
 
 struct SectionHeader: View {
+    // MARK: - Properties
     var title: String
+    @State var isBolded = false
     
     var body: some View {
         HStack {
             Text(title)
-                .font(.title2)
-                .fontWeight(.bold)
+                .foregroundStyle(isBolded ? .black : .gray)
+                .font(isBolded ? .title2 : .headline)
+                .fontWeight(isBolded ? .bold : .regular)
             Spacer()
         }
         .frame(height: 64)

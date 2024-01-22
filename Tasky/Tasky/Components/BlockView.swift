@@ -26,6 +26,7 @@ struct BlockView: View {
     @Binding var isDragging: Bool
     @Binding var dragEvent: DragEvent
     @Binding var animatesBackToOrigin: Bool
+    @Binding var isHighlighted: Bool
     
     // MARK: - Body
     var body: some View {
@@ -33,14 +34,17 @@ struct BlockView: View {
             ZStack {
                 HStack {
                     Text(task.name)
-                        .padding()
+                        .foregroundStyle(isHighlighted ? .white : .black)
+                        .fixedSize(horizontal: false, vertical: true)
+                        .multilineTextAlignment(.center)
+                        .frame(minWidth: 90)
+                        .frame(height: 60)
+                        .padding(.horizontal)
                 }
-                TextField(task.name, text: $text)
-                    .fixedSize()
             }
             .background {
                 RoundedRectangle(cornerRadius: 20)
-                    .fill(.white)
+                    .fill(isHighlighted ? .green : .white)
                     .shadow(color: .black.opacity(0.2), radius: 6)
             }
             .opacity(opacity)
@@ -87,6 +91,7 @@ struct BlockView: View {
         task: Task(name: "Go on a walk", symbol: nil, date: Date(), minuteGroup: .zeroToTen),
         isDragging: .constant(false),
         dragEvent: .constant(DragEvent(absoluteOrigin: .zero)),
-        animatesBackToOrigin: .constant(true)
+        animatesBackToOrigin: .constant(true),
+        isHighlighted: .constant(false)
     )
 }
