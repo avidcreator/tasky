@@ -9,11 +9,15 @@ import SwiftUI
 import SwiftData
 
 struct NowView: View {
+    // MARK: - Properties
+    // MARK: State Properties
     @State private var dragLocation: CGPoint = .zero
-    @State var minuteGroupSelected: String? = nil
-    @State var isShowingTaskView: Bool = false
+    @State private var minuteGroupSelected: String? = nil
+    @State private var isShowingTaskView: Bool = false
     
     @Query private var allTasks: [Task] = []
+    
+    // MARK: - Computed Properties
     var dayTasks: [Task] {
         allTasks.filter({ $0.date.isSameDayAs(date: Date()) })
     }
@@ -79,6 +83,7 @@ struct NowView: View {
         }
     }
     
+    // MARK: - Views
     private func list(minuteGroups: [MinuteGroup]) -> some View {
         List {
             ForEach(minuteGroups, id: \.id) { minuteGroup in
@@ -113,6 +118,7 @@ struct NowView: View {
         .listStyle(.plain)
     }
     
+    // MARK: - Body
     var body: some View {
         ZStack {
             VStack {
