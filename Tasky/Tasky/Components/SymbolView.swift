@@ -19,9 +19,11 @@ enum SymbolSize: Double {
 }
 
 struct SymbolView: View {
-    var systemName: String
+    @Binding var symbol: String?
+    
     var size: SymbolSize
     var style: SymbolStyle = .normal
+    
     private let cornerRadiusRatio = 0.5
     
     private var padding: Double {
@@ -49,7 +51,7 @@ struct SymbolView: View {
     
     var body: some View {
         ZStack {
-            Image(systemName: systemName)
+            Image(systemName: symbol ?? "")
                 .resizable()
                 .scaledToFit()
                 .frame(width: size.rawValue, height: size.rawValue)
@@ -63,6 +65,6 @@ struct SymbolView: View {
 }
 
 #Preview {
-    SymbolView(systemName: "figure.pool.swim", size: .large)
+    SymbolView(symbol: .constant("figure.pool.swim"), size: .large)
 }
 
