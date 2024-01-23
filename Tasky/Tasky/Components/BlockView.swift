@@ -33,21 +33,25 @@ struct BlockView: View {
         GeometryReader { proxy in
             ZStack {
                 HStack {
+                    if let symbol = task.symbol {
+                        Image(systemName: symbol)
+                            .renderingMode(.template)
+                            .foregroundStyle(isHighlighted ? .white : .black)
+                    }
                     Text(task.name)
                         .foregroundStyle(isHighlighted ? .white : .black)
                         .fixedSize(horizontal: false, vertical: true)
                         .multilineTextAlignment(.center)
-                        .frame(minWidth: 90)
                         .frame(height: 60)
-                        .padding(.horizontal)
                 }
+                .padding(.horizontal)
             }
             .background {
                 RoundedRectangle(cornerRadius: 20)
                     .fill(isHighlighted ? .green : .white)
                     .shadow(color: .black.opacity(0.2), radius: 6)
             }
-            .opacity(opacity)
+            .opacity(isHighlighted ? 1.0 : 0.5)
             .offset(offset)
             .makeDraggable(
                 isDragging: $isDragging,
