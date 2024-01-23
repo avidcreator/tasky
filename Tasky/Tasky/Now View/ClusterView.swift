@@ -15,6 +15,7 @@ struct ClusterView: View {
     @State private var showsActions = false
     @State private var draggedCellReleaseIndex: Int?
     @State private var cellPlacements: [String: CellPlacement] = [:]
+    @State private var isHighlighted = false
     
     // MARK: Binding Properties
     @Binding var isDragging: Bool
@@ -134,7 +135,7 @@ struct ClusterView: View {
                         selectedAction: $selectedAction,
                         showsActions: $showsActions,
                         cellPlacements: $cellPlacements,
-                        isHighlighted: isMinuteGroupActive
+                        isHighlighted: $isHighlighted
                     )
                     .onTouch(
                         dragEvent: $draggedCellEvent,
@@ -174,6 +175,10 @@ struct ClusterView: View {
             withAnimation {
                 showsActions = cellPlacements.isEmpty
             }
+        }
+        
+        .onAppear {
+            isHighlighted = cluster.minuteGroup == Date().minuteGroup
         }
         
         // Update `cellReorder` when releasing a drag

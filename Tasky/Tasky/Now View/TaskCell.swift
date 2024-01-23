@@ -23,6 +23,7 @@ struct TaskCell: View {
     @Binding var selectedAction: Action?
     @Binding var showsActions: Bool
     @Binding var cellPlacements: [String: CellPlacement]
+    @Binding var isHighlighted: Bool
     
     // MARK: State Properties
     @State private var isDraggingBlock: Bool = false
@@ -30,7 +31,6 @@ struct TaskCell: View {
     @State private var actionViewOffsetProgress: CGPoint = .zero
     @State private var blockViewAnimatesBackToOrigin = true
     @State private var offset: CGSize = .zero
-    @State var isHighlighted = false
     
     // MARK: Computed Properties
     private var isDraggingCell: Bool {
@@ -165,6 +165,7 @@ struct TaskCell: View {
         blockDragEvent: .constant(DragEvent(absoluteOrigin: .zero)),
         selectedAction: .constant(nil),
         showsActions: .constant(false),
-        cellPlacements: .constant([:])
+        cellPlacements: .constant([:]),
+        isHighlighted: .constant(false)
     )
 }
