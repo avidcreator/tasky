@@ -6,11 +6,14 @@
 //
 
 import SwiftUI
+import SwiftData
 
 struct HomeView: View {
     // MARK: - Properties
+    // MARK: Environment Properties
+    @Environment (\.modelContext) private var context
     // MARK: State Properties
-//    @State private var clusters: [Cluster] = SampleData.clusters
+    @Query private var clusters: [Cluster]
     @State private var isDragging: Bool = false
     @State private var draggedTask: Task? = nil
     @State private var draggedCellZIndex: Double = 0
@@ -24,44 +27,20 @@ struct HomeView: View {
     @State private var isEditing: Bool = false
     @State private var cellReorder: CellReorder?
     @State private var isShowingTaskView = false
+    @State private var shouldCreateNewTask = false
+    @State private var newTask: Task = Task.empty()
     
-    private var allTasks: [Task] = [
-        Task(name: "Go for a walk", symbol: nil, date: Date(), minuteGroup: .zeroToTen),
-        Task(name: "Drink water", symbol: nil, date: Date(), minuteGroup: .zeroToTen),
-        Task(name: "Take the dog out", symbol: nil, date: Date(), minuteGroup: .tenToTwenty),
-        Task(name: "Take vitamins", symbol: nil, date: Date(), minuteGroup: .tenToTwenty),
-        Task(name: "Prepare lunch", symbol: nil, date: Date(), minuteGroup: .twentyToThirty),
-        Task(name: "Work on app", symbol: nil, date: Date(), minuteGroup: .thirtyToForty),
-    ]
-    
-    @State private var clusters: [Cluster] = []
-    
-    // MARK: Computed Properties
-    var dayTasks: [Task] {
-        allTasks.filter({ $0.date.isSameDayAs(date: Date()) })
-    }
-    
-    private var tasks: [MinuteGroup: [Task]] {
-        var tasks: [MinuteGroup: [Task]] = [:]
-        for minuteGroup in MinuteGroup.allCases {
-            var minuteGroupTasks: [Task] = []
-            for dayTask in dayTasks {
-                if dayTask.minuteGroup == minuteGroup {
-                    minuteGroupTasks.append(dayTask)
-                }
-            }
-            tasks[minuteGroup] = minuteGroupTasks
-        }
-        return tasks
+    private var orderedClusters: [Cluster] {
+        clusters.sorted(by: { $0.minuteGroup.rawValue < $1.minuteGroup.rawValue })
     }
     
     private func task(id: String) -> Task? {
-        clusters.flatMap({ $0.tasks }).filter({ $0.id == id }).first ?? nil
+        orderedClusters.flatMap({ $0.tasks }).filter({ $0.id == id }).first ?? nil
     }
     
     private func indexPath(forTask task: Task) -> IndexPath? {
-        for sectionIndex in 0..<clusters.count {
-            let cluster = clusters[sectionIndex]
+        for sectionIndex in 0..<orderedClusters.count {
+            let cluster = orderedClusters[sectionIndex]
             for itemIndex in 0..<cluster.tasks.count {
                 let enumeratedTask = cluster.tasks[itemIndex]
                 if enumeratedTask == task {
@@ -73,8 +52,8 @@ struct HomeView: View {
     }
     
     private func indexPath(forCluster cluster: Cluster) -> IndexPath? {
-        for index in 0..<clusters.count {
-            let enumeratedCluster = clusters[index]
+        for index in 0..<orderedClusters.count {
+            let enumeratedCluster = orderedClusters[index]
             if enumeratedCluster == cluster {
                 return IndexPath(item: 0, section: index)
             }
@@ -86,12 +65,12 @@ struct HomeView: View {
     private func handleReorder(_ reorder: CellReorder) {
         // Move within same section
         if reorder.originClusterId == reorder.finalClusterId {
-            guard let originClusterIndex = clusters.firstIndex(where: { $0.id == reorder.originClusterId }) else { return }
-            guard reorder.originIndex < clusters[originClusterIndex].tasks.count else { return }
-            guard reorder.finalIndex <= clusters[originClusterIndex].tasks.count && reorder.finalIndex >= 0 else { return }
-            let task = clusters[originClusterIndex].tasks[reorder.originIndex]
+            guard let originClusterIndex = orderedClusters.firstIndex(where: { $0.id == reorder.originClusterId }) else { return }
+            guard reorder.originIndex < orderedClusters[originClusterIndex].tasks.count else { return }
+            guard reorder.finalIndex <= orderedClusters[originClusterIndex].tasks.count && reorder.finalIndex >= 0 else { return }
+            let task = orderedClusters[originClusterIndex].tasks[reorder.originIndex]
             withAnimation {
-                clusters[originClusterIndex].move(task: task, to: reorder.finalIndex)
+                orderedClusters[originClusterIndex].move(task: task, to: reorder.finalIndex)
                 self.cellReorder = nil
             }
         }
@@ -131,15 +110,15 @@ struct HomeView: View {
         guard let indexPath = indexPath(forTask: task) else { return }
         let newTask = Task.duplicate(task)
         withAnimation {
-            clusters[indexPath.section].insert(newTask, at: indexPath.item + 1)
+            orderedClusters[indexPath.section].insert(newTask, at: indexPath.item + 1)
         }
     }
     
     private func delete(_ task: Task) {
         guard let indexPath = indexPath(forTask: task) else { return }
-        guard indexPath.section < clusters.count else { return }
+        guard indexPath.section < orderedClusters.count else { return }
         withAnimation {
-            clusters[indexPath.section].remove(task)
+            orderedClusters[indexPath.section].remove(task)
         }
     }
     
@@ -148,9 +127,9 @@ struct HomeView: View {
         // Continues only if the task id does not already exist.
         // This allows new tasks to share the same name, but not the same id.
         guard indexPath(forTask: task) == nil else { return }
-        guard clusters.contains(where: { $0 == cluster }) else { return }
+        guard orderedClusters.contains(where: { $0 == cluster }) else { return }
         guard let indexPath = indexPath(forCluster: cluster) else { return }
-        clusters[indexPath.section].add(task)
+        orderedClusters[indexPath.section].add(task)
     }
     
     private func move(task: Task, toCluster cluster: Cluster) {
@@ -163,7 +142,7 @@ struct HomeView: View {
     
     private func replace(task originalTask: Task, withTask newTask: Task) {
         guard let indexPath = indexPath(forTask: originalTask) else { return }
-        clusters[indexPath.section].replace(task: originalTask, withTask: newTask)
+        orderedClusters[indexPath.section].replace(task: originalTask, withTask: newTask)
     }
     
     // MARK: - Views
@@ -177,14 +156,9 @@ struct HomeView: View {
         }
     }
     
-    private func list(minuteGroups: [MinuteGroup]) -> some View {
+    private var list: some View {
         VStack {
-            ForEach(minuteGroups) { group in
-                let cluster = Cluster(
-                    hour: Date().hour(),
-                    minuteGroup: group,
-                    tasks: tasks[group] ?? []
-                )
+            ForEach(orderedClusters) { cluster in
                 ClusterView(
                     cluster: cluster,
                     isDragging: $isDragging,
@@ -200,6 +174,19 @@ struct HomeView: View {
                 .zIndex(clusterForDraggedCell == cluster ? clusterForDraggedCellZIndex : 0.0)
                 .onTouch(
                     dragEvent: $draggedCellEvent,
+                    offset: CGPoint(x: 16, y: -16),
+                    id: cluster.id,
+                    dragInsideCallback: nil,
+                    changeCallback: { isInside in
+                        if isInside {
+                            selectedCluster = cluster
+                        } else if selectedCluster == cluster {
+                            selectedCluster = nil
+                        }
+                    }
+                )
+                .onTouch(
+                    dragEvent: $draggedCreateBlockEvent,
                     offset: CGPoint(x: 16, y: -16),
                     id: cluster.id,
                     dragInsideCallback: nil,
@@ -236,21 +223,23 @@ struct HomeView: View {
         } else {
             GeometryReader { proxy in
                 VStack {
+                    header
                     ScrollView {
                         VStack {
-                            header
-                            list(minuteGroups: MinuteGroup.allCases)
+                            list
                         }
                     }
                     CreateBlock(isDragging: $isDragging, dragEvent: $draggedCreateBlockEvent)
                         .onTouchUpGesture {
                             if selectedCluster != nil {
+                                newTask = Task.empty()
+                                newTask.minuteGroup = selectedCluster?.minuteGroup ?? .zeroToTen
                                 isShowingTaskView = true
                             }
                         }
                 }
                 .onAppear {
-                    let zIndex = clusters.flatMap({ $0.tasks }).count - 1
+                    let zIndex = orderedClusters.flatMap({ $0.tasks }).count - 1
                     draggedCellZIndex = Double(zIndex)
                     clusterForDraggedCellZIndex = Double(zIndex)
                     draggedCellEvent = DragEvent(absoluteOrigin: proxy.frame(in: .global).origin)
@@ -258,19 +247,31 @@ struct HomeView: View {
                 }
             }
             .sheet(isPresented: $isShowingTaskView, content: {
-                let task = Task(
-                    name: "",
-                    symbol: nil,
-                    date: Date(),
-                    minuteGroup: selectedCluster?.minuteGroup ?? .zeroToTen
-                )
                 TaskView(
-                    task: task,
                     showSymbolPicker: false,
                     isEditing: false,
-                    minuteGroup: selectedCluster?.minuteGroup ?? .zeroToTen,
-                    isShowingTaskView: $isShowingTaskView
+                    clusterTask: $newTask,
+                    isShowingTaskView: $isShowingTaskView,
+                    shouldCreateNewTask: $shouldCreateNewTask
                 )
+            })
+            .onAppear {
+                if orderedClusters.isEmpty {
+                    context.insert(Cluster(hour: Date().hour(), minuteGroup: .zeroToTen, tasks: []))
+                    context.insert(Cluster(hour: Date().hour(), minuteGroup: .tenToTwenty, tasks: []))
+                    context.insert(Cluster(hour: Date().hour(), minuteGroup: .twentyToThirty, tasks: []))
+                    context.insert(Cluster(hour: Date().hour(), minuteGroup: .thirtyToForty, tasks: []))
+                    context.insert(Cluster(hour: Date().hour(), minuteGroup: .fortyToFifty, tasks: []))
+                    context.insert(Cluster(hour: Date().hour(), minuteGroup: .fiftyToSixty, tasks: []))
+                }
+            }
+            .onChange(of: isShowingTaskView, { oldValue, newValue in
+                if !isShowingTaskView, shouldCreateNewTask {
+                    guard !newTask.name.isEmpty || !(newTask.symbol ?? "").isEmpty else { return }
+                    print("name: \(newTask.name), symbol: \(newTask.symbol ?? "")")
+                    clusters.filter({ $0.minuteGroup == newTask.minuteGroup }).first?.add(newTask)
+                    newTask = Task.empty()
+                }
             })
         }
     }

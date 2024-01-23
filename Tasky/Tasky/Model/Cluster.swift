@@ -6,13 +6,29 @@
 //
 
 import Foundation
+import SwiftData
 
-struct Cluster: Identifiable, Equatable {
+@Model
+final class Cluster: Identifiable, Equatable {
     // MARK: - Properties
     var id = UUID().uuidString
     var hour: Int
     var minuteGroup: MinuteGroup
     private(set) var tasks: [Task]
+    
+    
+    // MARK: - Equatable
+    static func ==(lhs: Cluster, rhs: Cluster) -> Bool {
+        return lhs.id == rhs.id
+    }
+    
+    // MARK: - Initialization
+    init(id: String = UUID().uuidString, hour: Int, minuteGroup: MinuteGroup, tasks: [Task]) {
+        self.id = id
+        self.hour = hour
+        self.minuteGroup = minuteGroup
+        self.tasks = tasks
+    }
     
     // MARK: - Retrieval
     var title: String { "\(hour):\(minuteGroup.pairStrings.0)" }
@@ -27,34 +43,30 @@ struct Cluster: Identifiable, Equatable {
         return nil
     }
     
-    // MARK: - Equatable
-    static func ==(lhs: Cluster, rhs: Cluster) -> Bool {
-        return lhs.id == rhs.id
-    }
-    
     // MARK: - Tasks
-    mutating func insert(_ task: Task, at index: Int) {
+    func insert(_ task: Task, at index: Int) {
         guard index <= tasks.count else { return }
         tasks.insert(task, at: index)
     }
     
-    mutating func add(_ task: Task) {
+    func add(_ task: Task) {
         tasks.append(task)
     }
     
-    mutating func remove(_ task: Task) {
+    func remove(_ task: Task) {
         tasks.removeAll(where: { $0 == task })
     }
     
-    mutating func replace(task originalTask: Task, withTask newTask: Task) {
+    func replace(task originalTask: Task, withTask newTask: Task) {
         guard let index = tasks.firstIndex(where: { $0 == originalTask }) else { return }
         tasks[index] = newTask
     }
     
-    mutating func move(task: Task, to finalIndex: Int) {
+    func move(task: Task, to finalIndex: Int) {
         guard finalIndex <= tasks.count else { return }
         guard let originIndex = tasks.firstIndex(where: { $0 == task }) else { return }
         let originIndexSet = IndexSet(integer: originIndex)
         tasks.move(fromOffsets: originIndexSet, toOffset: finalIndex)
     }
 }
+

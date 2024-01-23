@@ -9,7 +9,7 @@ import Foundation
 //import SwiftData
 
 //@Model
-final class Task: Identifiable, Equatable {
+final class Task: Codable, Identifiable, Equatable {
     // MARK: - Properties
     var id = UUID().uuidString
     var name: String
@@ -18,12 +18,23 @@ final class Task: Identifiable, Equatable {
     var minuteGroup: MinuteGroup
     
     // MARK: - Initialization
+    init(name: String, symbol: String?, date: Date, minuteGroup: MinuteGroup) {
+        self.name = name
+        self.symbol = symbol
+        self.date = date
+        self.minuteGroup = minuteGroup
+    }
+    
     init(id: String = UUID().uuidString, name: String, symbol: String?, date: Date, minuteGroup: MinuteGroup) {
         self.id = id
         self.name = name
         self.symbol = symbol
         self.date = date
         self.minuteGroup = minuteGroup
+    }
+    
+    static func empty() -> Task {
+        Task(name: "", symbol: nil, date: Date(), minuteGroup: .zeroToTen)
     }
     
     static func duplicate(_ task: Task) -> Task {

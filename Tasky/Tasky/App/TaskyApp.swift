@@ -6,7 +6,7 @@
 //
 
 import SwiftUI
-//import SwiftData
+import SwiftData
 
 @main
 struct TaskyApp: App {
@@ -15,6 +15,6 @@ struct TaskyApp: App {
             HomeView()
                 .tint(.black)
         }
-//        .modelContainer(for: Task.self)
+        .modelContainer(for: Cluster.self)
     }
 }

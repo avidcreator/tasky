@@ -139,18 +139,12 @@ struct NowView: View {
         .statusBar(hidden: true)
         .gesture(drag)
         .sheet(isPresented: $isShowingTaskView, content: {
-            let task = Task(
-                name: "",
-                symbol: nil,
-                date: Date(),
-                minuteGroup: MinuteGroup.make(id: minuteGroupSelected ?? "") ?? .zeroToTen
-            )
             TaskView(
-                task: task,
                 showSymbolPicker: false,
                 isEditing: false,
-                minuteGroup: .zeroToTen,
-                isShowingTaskView: $isShowingTaskView
+                clusterTask: .constant(Task.empty()),
+                isShowingTaskView: $isShowingTaskView,
+                shouldCreateNewTask: .constant(false)
             )
         })
     }
