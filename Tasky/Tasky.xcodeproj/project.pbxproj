@@ -8,21 +8,16 @@
 
 /* Begin PBXBuildFile section */
 		4D2201732B5858EF001E2989 /* TaskyApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D2201722B5858EF001E2989 /* TaskyApp.swift */; };
-		4D2201752B5858EF001E2989 /* NowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D2201742B5858EF001E2989 /* NowView.swift */; };
 		4D2201772B5858F0001E2989 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4D2201762B5858F0001E2989 /* Assets.xcassets */; };
 		4D22017A2B5858F0001E2989 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4D2201792B5858F0001E2989 /* Preview Assets.xcassets */; };
 		4D2201822B5859E9001E2989 /* Task.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D2201812B5859E9001E2989 /* Task.swift */; };
 		4D2201842B585A05001E2989 /* MinuteGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D2201832B585A05001E2989 /* MinuteGroup.swift */; };
 		4D2201862B585A5D001E2989 /* CreateBlock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D2201852B585A5D001E2989 /* CreateBlock.swift */; };
-		4D2201882B585A84001E2989 /* Block.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D2201872B585A84001E2989 /* Block.swift */; };
 		4D22018A2B585AAF001E2989 /* SymbolView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D2201892B585AAF001E2989 /* SymbolView.swift */; };
 		4D22018C2B585AC9001E2989 /* NameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D22018B2B585AC9001E2989 /* NameView.swift */; };
 		4D2201942B585B39001E2989 /* Date+Tasky.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D2201932B585B39001E2989 /* Date+Tasky.swift */; };
-		4D2201972B585B5A001E2989 /* MinuteGroupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D2201962B585B5A001E2989 /* MinuteGroupView.swift */; };
 		4D22019C2B585BB5001E2989 /* SymbolPicker in Frameworks */ = {isa = PBXBuildFile; productRef = 4D22019B2B585BB5001E2989 /* SymbolPicker */; };
 		4D22019E2B585BCE001E2989 /* TaskView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D22019D2B585BCE001E2989 /* TaskView.swift */; };
-		4D2201A32B586A6B001E2989 /* BlockCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D2201A22B586A6B001E2989 /* BlockCell.swift */; };
-		4D2201A52B586AF2001E2989 /* MinuteGroupSectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D2201A42B586AF2001E2989 /* MinuteGroupSectionView.swift */; };
 		4D9A13E12B5F15DB00970B1A /* TaskCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D9A13E02B5F15DB00970B1A /* TaskCell.swift */; };
 		4D9A13E32B5F165F00970B1A /* Action.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D9A13E22B5F165F00970B1A /* Action.swift */; };
 		4D9A13E52B5F166F00970B1A /* ActionType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D9A13E42B5F166F00970B1A /* ActionType.swift */; };
@@ -43,20 +38,15 @@
 /* Begin PBXFileReference section */
 		4D22016F2B5858EF001E2989 /* Tasky.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Tasky.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4D2201722B5858EF001E2989 /* TaskyApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskyApp.swift; sourceTree = "<group>"; };
-		4D2201742B5858EF001E2989 /* NowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NowView.swift; sourceTree = "<group>"; };
 		4D2201762B5858F0001E2989 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		4D2201792B5858F0001E2989 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		4D2201812B5859E9001E2989 /* Task.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Task.swift; sourceTree = "<group>"; };
 		4D2201832B585A05001E2989 /* MinuteGroup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MinuteGroup.swift; sourceTree = "<group>"; };
 		4D2201852B585A5D001E2989 /* CreateBlock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateBlock.swift; sourceTree = "<group>"; };
-		4D2201872B585A84001E2989 /* Block.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Block.swift; sourceTree = "<group>"; };
 		4D2201892B585AAF001E2989 /* SymbolView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SymbolView.swift; sourceTree = "<group>"; };
 		4D22018B2B585AC9001E2989 /* NameView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NameView.swift; sourceTree = "<group>"; };
 		4D2201932B585B39001E2989 /* Date+Tasky.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Tasky.swift"; sourceTree = "<group>"; };
-		4D2201962B585B5A001E2989 /* MinuteGroupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MinuteGroupView.swift; sourceTree = "<group>"; };
 		4D22019D2B585BCE001E2989 /* TaskView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskView.swift; sourceTree = "<group>"; };
-		4D2201A22B586A6B001E2989 /* BlockCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockCell.swift; sourceTree = "<group>"; };
-		4D2201A42B586AF2001E2989 /* MinuteGroupSectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MinuteGroupSectionView.swift; sourceTree = "<group>"; };
 		4D9A13E02B5F15DB00970B1A /* TaskCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskCell.swift; sourceTree = "<group>"; };
 		4D9A13E22B5F165F00970B1A /* Action.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Action.swift; sourceTree = "<group>"; };
 		4D9A13E42B5F166F00970B1A /* ActionType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionType.swift; sourceTree = "<group>"; };
@@ -107,7 +97,6 @@
 			children = (
 				4D2201902B585AEB001E2989 /* App */,
 				4D9A14022B5F19C400970B1A /* Home View */,
-				4D22018F2B585AE8001E2989 /* Now View */,
 				4D22019F2B585BEC001E2989 /* Task View */,
 				4D9A14012B5F19B800970B1A /* Edit Task View */,
 				4D22018E2B585AE1001E2989 /* Model */,
@@ -132,7 +121,6 @@
 			isa = PBXGroup;
 			children = (
 				4D2201852B585A5D001E2989 /* CreateBlock.swift */,
-				4D2201872B585A84001E2989 /* Block.swift */,
 				4D9A13EA2B5F16F000970B1A /* BlockView.swift */,
 				4D2201892B585AAF001E2989 /* SymbolView.swift */,
 				4D22018B2B585AC9001E2989 /* NameView.swift */,
@@ -155,19 +143,6 @@
 				4D9A13F42B5F178300970B1A /* CellReorder.swift */,
 			);
 			path = Model;
-			sourceTree = "<group>";
-		};
-		4D22018F2B585AE8001E2989 /* Now View */ = {
-			isa = PBXGroup;
-			children = (
-				4D2201742B5858EF001E2989 /* NowView.swift */,
-				4D9A13F02B5F175C00970B1A /* ClusterView.swift */,
-				4D2201A42B586AF2001E2989 /* MinuteGroupSectionView.swift */,
-				4D2201962B585B5A001E2989 /* MinuteGroupView.swift */,
-				4D2201A22B586A6B001E2989 /* BlockCell.swift */,
-				4D9A13E02B5F15DB00970B1A /* TaskCell.swift */,
-			);
-			path = "Now View";
 			sourceTree = "<group>";
 		};
 		4D2201902B585AEB001E2989 /* App */ = {
@@ -215,6 +190,8 @@
 			isa = PBXGroup;
 			children = (
 				4D9A13FB2B5F191D00970B1A /* HomeView.swift */,
+				4D9A13F02B5F175C00970B1A /* ClusterView.swift */,
+				4D9A13E02B5F15DB00970B1A /* TaskCell.swift */,
 			);
 			path = "Home View";
 			sourceTree = "<group>";
@@ -297,19 +274,15 @@
 			files = (
 				4D9A13FC2B5F191D00970B1A /* HomeView.swift in Sources */,
 				4D9A13F32B5F176A00970B1A /* Cluster.swift in Sources */,
-				4D2201752B5858EF001E2989 /* NowView.swift in Sources */,
 				4D9A13F12B5F175C00970B1A /* ClusterView.swift in Sources */,
 				4D9A13E92B5F169B00970B1A /* CellPlacement.swift in Sources */,
 				4D9A13ED2B5F170000970B1A /* View+Extension.swift in Sources */,
 				4D2201822B5859E9001E2989 /* Task.swift in Sources */,
 				4D9A13E72B5F168A00970B1A /* DragEvent.swift in Sources */,
-				4D2201972B585B5A001E2989 /* MinuteGroupView.swift in Sources */,
 				4D9A13EF2B5F173200970B1A /* ActionView.swift in Sources */,
 				4D2201732B5858EF001E2989 /* TaskyApp.swift in Sources */,
-				4D2201882B585A84001E2989 /* Block.swift in Sources */,
 				4D9A13EB2B5F16F000970B1A /* BlockView.swift in Sources */,
 				4D9A13FA2B5F182D00970B1A /* SectionHeader.swift in Sources */,
-				4D2201A32B586A6B001E2989 /* BlockCell.swift in Sources */,
 				4D2201862B585A5D001E2989 /* CreateBlock.swift in Sources */,
 				4D22018C2B585AC9001E2989 /* NameView.swift in Sources */,
 				4D9A14002B5F19AF00970B1A /* EditTaskView.swift in Sources */,
@@ -318,7 +291,6 @@
 				4D2201942B585B39001E2989 /* Date+Tasky.swift in Sources */,
 				4D9A13F72B5F179700970B1A /* SampleData.swift in Sources */,
 				4D9A13E52B5F166F00970B1A /* ActionType.swift in Sources */,
-				4D2201A52B586AF2001E2989 /* MinuteGroupSectionView.swift in Sources */,
 				4D22019E2B585BCE001E2989 /* TaskView.swift in Sources */,
 				4D9A13E32B5F165F00970B1A /* Action.swift in Sources */,
 				4D22018A2B585AAF001E2989 /* SymbolView.swift in Sources */,
