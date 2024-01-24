@@ -133,13 +133,13 @@
 		4D22018E2B585AE1001E2989 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				4D2201832B585A05001E2989 /* MinuteGroup.swift */,
+				4D9A13F22B5F176A00970B1A /* Cluster.swift */,
 				4D2201812B5859E9001E2989 /* Task.swift */,
+				4D2201832B585A05001E2989 /* MinuteGroup.swift */,
 				4D9A13E22B5F165F00970B1A /* Action.swift */,
 				4D9A13E42B5F166F00970B1A /* ActionType.swift */,
 				4D9A13E62B5F168A00970B1A /* DragEvent.swift */,
 				4D9A13E82B5F169B00970B1A /* CellPlacement.swift */,
-				4D9A13F22B5F176A00970B1A /* Cluster.swift */,
 				4D9A13F42B5F178300970B1A /* CellReorder.swift */,
 			);
 			path = Model;
