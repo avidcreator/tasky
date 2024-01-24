@@ -6,9 +6,7 @@
 //
 
 import Foundation
-//import SwiftData
 
-//@Model
 final class Task: Codable, Identifiable, Equatable {
     // MARK: - Properties
     var id = UUID().uuidString
