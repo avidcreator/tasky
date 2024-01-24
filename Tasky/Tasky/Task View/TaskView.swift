@@ -7,27 +7,40 @@
 
 import SwiftUI
 import SymbolPicker
-import SwiftData
 
 struct TaskView: View {
-    @Environment (\.modelContext) private var context
-    @State var task: Task
+    // MARK: - Properties
     @State var showSymbolPicker: Bool
-    @Binding var isShowingTaskView: Bool
-    @Binding var minuteGroupSelected: String?
     @State var isEditing: Bool
+    @State private var symbol: String?
     
+    // MARK: Binding Properties
+    @Binding var clusterTask: Task
+    @Binding var isShowingTaskView: Bool
+    @Binding var shouldCreateNewTask: Bool
+    
+    // MARK: - Initialization
+    init(showSymbolPicker: Bool, isEditing: Bool, clusterTask: Binding<Task>, isShowingTaskView: Binding<Bool>, shouldCreateNewTask: Binding<Bool>) {
+        self.showSymbolPicker = showSymbolPicker
+        self.isEditing = isEditing
+        self._clusterTask = clusterTask
+        self._isShowingTaskView = isShowingTaskView
+        self._shouldCreateNewTask = shouldCreateNewTask
+    }
+    
+    // MARK: Views
     private var cancelButton: some View {
         Button("Cancel") {
             isShowingTaskView = false
+            shouldCreateNewTask = false
         }
     }
     
     private var addButton: some View {
         Button {
-            context.insert(task)
+            clusterTask.symbol = symbol
             isShowingTaskView = false
-            minuteGroupSelected = nil
+            shouldCreateNewTask = true
         } label: {
             Text("Add")
         }
@@ -41,14 +54,14 @@ struct TaskView: View {
                     Button {
                         showSymbolPicker = true
                     } label: {
-                        SymbolView(systemName: task.symbol ?? "", size: .medium, style: .highlighted)
+                        SymbolView(symbol: $symbol, size: .medium, style: .highlighted)
                     }
                     .sheet(isPresented: $showSymbolPicker) {
-                        SymbolPicker(symbol: $task.symbol)
+                        SymbolPicker(symbol: $symbol)
                     }
                     Spacer()
                 }
-                NameView(placeholder: "name your task", name: $task.name)
+                NameView(placeholder: "name your task", name: $clusterTask.name)
             }
             .listRowBackground(Color.clear)
             .listRowSeparator(.hidden)
@@ -65,9 +78,6 @@ struct TaskView: View {
                 }
             }
         }
-        .onDisappear {
-            minuteGroupSelected = nil
-        }
     }
     
     var body: some View {
@@ -80,10 +90,13 @@ struct TaskView: View {
                 }
             }
         }
+        .onChange(of: clusterTask) { oldValue, newValue in
+            symbol = clusterTask.symbol
+        }
     }
 }
 
 #Preview {
     let sampleTask = Task(name: "Go for a swim", symbol: "figure.pool.swim", date: Date(), minuteGroup: .zeroToTen)
-    return TaskView(task: sampleTask, showSymbolPicker: false, isShowingTaskView: .constant(false), minuteGroupSelected: .constant(nil), isEditing: false)
+    return TaskView(showSymbolPicker: false, isEditing: false, clusterTask: .constant(sampleTask), isShowingTaskView: .constant(false), shouldCreateNewTask: .constant(false))
 }

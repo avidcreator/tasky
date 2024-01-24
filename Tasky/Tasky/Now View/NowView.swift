@@ -6,7 +6,7 @@
 //
 
 import SwiftUI
-import SwiftData
+//import SwiftData
 
 struct NowView: View {
     // MARK: - Properties
@@ -15,7 +15,7 @@ struct NowView: View {
     @State private var minuteGroupSelected: String? = nil
     @State private var isShowingTaskView: Bool = false
     
-    @Query private var allTasks: [Task] = []
+    private var allTasks: [Task] = []
     
     // MARK: - Computed Properties
     var dayTasks: [Task] {
@@ -131,7 +131,7 @@ struct NowView: View {
                 }
                 list(minuteGroups: MinuteGroup.allCases)
                 Spacer()
-                CreateBlock()
+                CreateBlock(isDragging: .constant(false), dragEvent: .constant(DragEvent(absoluteOrigin: .zero)))
                     .opacity(dragLocation == .zero ? 1.0 : 0.0)
             }
             draggableBlock
@@ -139,18 +139,12 @@ struct NowView: View {
         .statusBar(hidden: true)
         .gesture(drag)
         .sheet(isPresented: $isShowingTaskView, content: {
-            let task = Task(
-                name: "",
-                symbol: nil,
-                date: Date(),
-                minuteGroup: MinuteGroup.make(id: minuteGroupSelected ?? "") ?? .zeroToTen
-            )
             TaskView(
-                task: task,
                 showSymbolPicker: false,
+                isEditing: false,
+                clusterTask: .constant(Task.empty()),
                 isShowingTaskView: $isShowingTaskView,
-                minuteGroupSelected: $minuteGroupSelected,
-                isEditing: false
+                shouldCreateNewTask: .constant(false)
             )
         })
     }

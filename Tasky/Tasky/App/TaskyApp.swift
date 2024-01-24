@@ -12,9 +12,9 @@ import SwiftData
 struct TaskyApp: App {
     var body: some Scene {
         WindowGroup {
-            NowView()
+            HomeView()
                 .tint(.black)
         }
-        .modelContainer(for: Task.self)
+        .modelContainer(for: Cluster.self)
     }
 }
